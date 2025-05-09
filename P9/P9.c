@@ -21,8 +21,8 @@
         printf("Caracter '%c' no encontrado\n", caracter);
     }
 
-    int numero = 42;  // En binario: 101010
+    int numero = 42; 
     for (int i = 0; i < 8; i++) {
         printf("Bit %d de %d: %d\n", i, numero, getbit(numero, i));
-    
+        
  }
