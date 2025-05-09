@@ -38,26 +38,26 @@ section .text
      mov ebp,esp
      jump .dump1
 
-     .dump5:
+     .dump4:
       mov eax,[ebp+8]
       movzx eax, BYTE [eax]
       mov edx,[ebp+12]
       cmp al,dl
-      jne .dump3
+      jne .dump2
       mov eax,[epb+8]
-      jmp .dump4
-
-    .dump3:
-      add DWORD [ebp+8],1
+      jmp .dump3
 
     .dump2:
+      add DWORD [ebp+8],1
+
+    .dump1:
       mov eax,[ebp+8]
       movzx eax,BYTE [eax]
       test al,al
-      jne .dump5
+      jne .dump4
       mov eax,0
 
-    .dump4
+    .dump3
      pop epb
      ret
         
