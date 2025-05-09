@@ -4,8 +4,8 @@ global getbit
 getbit:
     push ebp
     mov ebp, esp
-    mov eax, [ebp+12]
-    mov edx, [ebp+8]
+    mov eax, dword[ebp+12]
+    mov edx, dword[ebp+8]
     mov ecx, eax
     sar edx, cl
     mov eax, edx 
