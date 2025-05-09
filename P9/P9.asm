@@ -5,13 +5,15 @@ section .text
    global getbit
 
 
- suma:
-   push ebp,esp
-   mov edx,[ebp+8]
-   mov eax,[ebp+12]
-   add eax,edx
-   pop ebp
-   ret
+  suma:
+    push ebp,esp
+    mov edx,[ebp+8]
+    mov eax,[ebp+12]
+    add eax,edx
+    pop ebp
+    ret
 
   strlen_dummy:
-     push ebp,esp
+     push ebp
+     mov eb, esp
+     
