@@ -14,10 +14,10 @@ int main(void){
     printf("\nprueba para pBin16b con valor 3333 : \n");
     pBin16b(3333);
 
-    printf("\nprueba para pBin32b con valor 123456\n");
+    printf("\nprueba para pBin32b con valor 123456: \n");
     pBin32b(123456);
 
-    printf("\nprueb para pBin64b con valor 18446744073709551615 \n");
+    printf("\nprueb para pBin64b con valor 18446744073709551615: \n");
     pBin64b(18446744073709551615);
 
     return 0;
