@@ -17,8 +17,8 @@ int main(void){
     printf("\nprueba para pBin32b con valor 123456\n");
     pBin32b(123456);
 
-    printf("\nprueb para pBin64b con valor  \n");
-    pBin64b();
+    printf("\nprueb para pBin64b con valor 18446744073709551615 \n");
+    pBin64b(18446744073709551615);
 
     return 0;
 }
