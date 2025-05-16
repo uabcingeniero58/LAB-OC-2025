@@ -2,9 +2,10 @@ section .data
     format db "%d", 0    
 
 section .text
-    global pBin8b, pBin16b, pBin32b, pBin64b
+    global pBin8b, pBin16b, pBin32b, pBin64b                
     extern printf, putchar
 
+; funcion 1.
 pBin8b:
     push ebp
     mov ebp, esp
@@ -39,6 +40,7 @@ pBin8b:
     pop ebp
     ret
 
+; funcion 2.
 pBin16b:
     push ebp
     mov ebp, esp
@@ -73,6 +75,7 @@ pBin16b:
     pop ebp
     ret
 
+; funcion 3.
 pBin32b:
     push ebp
     mov ebp, esp
@@ -106,7 +109,8 @@ pBin32b:
     mov esp, ebp
     pop ebp
     ret
-
+    
+; funcion 4.
 pBin64b:
     push ebp
     mov ebp, esp
