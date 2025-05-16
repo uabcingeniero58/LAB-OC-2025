@@ -109,7 +109,7 @@ pBin32b:
     mov esp, ebp
     pop ebp
     ret
-    
+
 ; funcion 4.
 pBin64b:
     push ebp
