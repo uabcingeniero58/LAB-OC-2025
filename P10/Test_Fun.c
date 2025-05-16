@@ -10,7 +10,7 @@ int main(void){
     printf("prueba pBin8b con valor 42 : \n");
     pBin8b(42);
     
-    
-    printf("\n prueba para pBin16b con valor 3333 : \n");
+
+    printf("\nprueba para pBin16b con valor 3333 : \n");
     pBin16b(3333);
 }
