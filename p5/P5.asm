@@ -50,7 +50,7 @@ _start:
     mov edx, nl
     call puts
 
- ; e) BX / 0xFF -> AL=cociente, AH=residuo; imprimir ambos (byte)
+    ; e) BX / 0xFF -> AL=cociente, AH=residuo; imprimir ambos (byte)
     mov ax, bx
     mov cl, [FF]
     div cl                ; AL = cociente, AH = residuo
@@ -70,7 +70,7 @@ _start:
     mov edx, nl
     call puts
 
- ; f) N = N + residuo; DEC N; imprimir N (word) y EFLAGS (dword)
+    ; f) N = N + residuo; DEC N; imprimir N (word) y EFLAGS (dword)
     mov ax, [N]
     movzx dx, byte [residuo]
     add ax, dx
