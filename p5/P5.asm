@@ -1,60 +1,106 @@
-%include "../LIB/pc_iox.inc"
+; P5.asm 
+; Matricula: 2203421 
+
+%include "LIB/pc_iox.inc"
 
 section .data
-    N dw 0            ; Variable de 2 bytes
-    cociente db 0      ; Variable para almacenar el cociente
-    residuo db 0       ; Variable para almacenar el residuo
-    flag_str db "EFLAGS: ", 0 ; Cadena para imprimir EFLAGS
-    newline db 10, 0   ; Cambio de línea
+    N          dw 0
+    matricula  dd 0x2203421
+    residuo    db 0       
+    FF         db 0xFF
+    nl         db 10,0
 
 section .text
-    global _start      ; Declarar punto de entrada para el linker
+    global _start
 
 _start:
-    ; a. Sumar matrícula hexadecimal al valor en EBX
+    call clrscr
+
+    ; a) EBX = 0x5C4B2A60 + matricula; imprimir EBX (dword)
     mov ebx, 0x5C4B2A60
-    add ebx, 0x2203421
-    call pHex_dw       ; Imprimir resultado en hexadecimal
+    add ebx, [matricula]
+    mov eax, ebx
+    call pHex_dw
+    mov edx, nl
+    call puts
 
-    ; b. Colocar los 16 bits menos significativos de EBX en la pila
+    ; b) Push BX (16 bits LSB de EBX); imprimir BX (word)
     push bx
-    call puts          ; Imprimir valor de la pila
+    xor eax, eax
+    mov ax, bx
+    call pHex_w
+    mov edx, nl
+    call puts
 
-    ; c. Multiplicar BL por 8 y guardar resultado en N (sin signo)
+    ; c) N = BL * 8 (sin signo); imprimir N (word)
+    xor eax, eax
     mov al, bl
-    mov cl, 8
-    mul cl             ; Multiplicación (resultado en AX)
-    mov [N], ax        ; Guardar resultado en N
-    call puts          ; Imprimir N
+    movzx ax, al
+    shl ax, 3
+    mov [N], ax
+    mov ax, [N]
+    call pHex_w
+    mov edx, nl
+    call puts
 
-    ; d. Incrementar el valor de N
+    ; d) N++ ; imprimir N (word)
     inc word [N]
-    call puts          ; Imprimir N incrementado
+    mov ax, [N]
+    call pHex_w
+    mov edx, nl
+    call puts
 
-    ; e. Dividir BX entre 0xFF e imprimir cociente y residuo
-    mov ax, bx         ; Mover BX a AX para división
-    mov cl, 0xFF
-    div cl             ; División (cociente en AL, residuo en AH)
-    mov [cociente], al ; Guardar cociente
-    mov [residuo], ah  ; Guardar residuo
-    call puts          ; Imprimir cociente y residuo
+ ; e) BX / 0xFF -> AL=cociente, AH=residuo; imprimir ambos (byte)
+    mov ax, bx
+    mov cl, [FF]
+    div cl                ; AL = cociente, AH = residuo
 
-    ; f. Sumar N y residuo, guardar en N, decrementar N
-    movzx ax, byte [residuo]
-    add [N], ax        ; Sumar residuo a N
-    dec word [N]       ; Decrementar N
-    call puts          ; Imprimir nuevo valor de N
+    ; guardar residuo en memoria
+    mov [residuo], ah
 
-    ; Obtener las EFLAGS y mostrar
-    pushf              ; Colocar las banderas en la pila
-    pop eax            ; Extraer las banderas en EAX
-    call puts          ; Imprimir EFLAGS
+    ; imprimir cociente
+    movzx eax, al
+    call pHex_b
+    mov edx, nl
+    call puts
 
-    ; g. Sacar un dato de 16 bits de la pila
-    pop bx             ; Extraer valor de la pila
-    call puts          ; Imprimir valor
+    ; imprimir residuo
+    movzx eax, byte [residuo]
+    call pHex_b
+    mov edx, nl
+    call puts
 
-    ; Salir del programa
-    mov eax, 1         ; Número de llamada al sistema (sys_exit)
-    mov ebx, 0         ; Código de salida
-    int 0x80           ; Llamar al kernel
+ ; f) N = N + residuo; DEC N; imprimir N (word) y EFLAGS (dword)
+    mov ax, [N]
+    movzx dx, byte [residuo]
+    add ax, dx
+    mov [N], ax
+    mov ax, [N]
+    call pHex_w
+    mov edx, nl
+    call puts
+
+    dec word [N]
+    mov ax, [N]
+    call pHex_w
+    mov edx, nl
+    call puts
+
+    pushfd
+    pop eax
+    call pHex_dw
+    mov edx, nl
+    call puts
+
+    ; g) Pop 16 bits de la pila; imprimir (word)
+    pop dx
+    xor eax, eax
+    mov ax, dx
+    call pHex_w
+    mov edx, nl
+    call puts
+
+    ; salir
+    mov eax, 1
+    xor ebx, ebx
+    int 0x80
